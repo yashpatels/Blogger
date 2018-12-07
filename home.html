@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blogger</title>
+</head>
+<script type="text/javascript">
+	function loginpage()
+	{
+		document.getElementById('modalbackground').style.display='block';
+		document.getElementById('login').style.display='block';
+		document.getElementById('signup').style.display='none';
+	}
+	function cancel()
+	{
+		document.getElementById('modalbackground').style.display='none';		
+	}
+	function signup()
+	{
+		document.getElementById('modalbackground').style.display='block';
+		document.getElementById('login').style.display='none';
+		document.getElementById('signup').style.display='block';
+	}
+</script>
+<style type="text/css">
+	#navbar{
+    overflow: hidden;
+    background-color: black;
+    width: 100%;
+}
+#logo
+{
+    display: block;
+    float:left;
+    margin:0;
+}
+#logsign{
+    display: block;
+    float:right;
+    padding-top: 22px;
+    padding-right: 10px;
+}
+#logsign :hover{
+    color:#e70bff;
+}
+a {
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+#modalbackground{
+     position: absolute; 
+     height:100%; 
+     width:100%; 
+     display:none;  
+    background-color: rgba(127, 127, 127, 0.63);
+}
+.up{
+    width: auto;
+    height: 500px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-image:linear-gradient(to right,#c0c0aa,#a3129e); 
+    border-radius: 10px;
+    padding: 82px 180px 33px 180px;
+    position: absolute;
+    text-align: center;
+    right: 400px;
+    left: 400px;
+    opacity: 1;
+}
+input[type=text] {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    color: black;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid black;
+    outline:none;
+    background:transparent;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 1; /* Firefox */
+}
+input[type=password] {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid black;
+    outline:none;
+    background:transparent;
+}
+input[type=email] {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid black;
+    outline:none;
+    background:transparent;
+}
+
+.button{
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    background:transparent;
+    outline: none;
+}
+</style>
+<body style="background: black;">
+	<div id="modalbackground">
+	<div id="login" class="up">
+		<form name="login" action="" method="POST">
+			<table align="center">
+				<tr><input placeholder="UserName" type="text" name="username" required></tr>
+				<tr><input placeholder="Password" type="password" name="password" required></tr>
+			</table>
+			<input type="submit" class="button" name="logup">
+			<button class="button" style="margin-left: 20px;" onclick="cancel()">Cancel</button>
+			<p>Don't Have Account ? <x onclick="signup()">Click Here</x></p>
+		</form>
+	</div>
+	<div id="signup" class="up">
+					<form name="signups" action="" method="POST">
+						<table align="center">
+							<tr><input placeholder="Name" type="text" name="name" required></tr>
+							<tr><input placeholder="UserName" type="text" name="username" required></tr>
+							<tr><input placeholder="Email" type="email" name="email" required></tr>							
+							<tr><input placeholder="Password" type="password" name="pass" required></tr>
+							<tr><input placeholder="Confirm Password" type="password" name="confpass" required></tr>
+							<tr><input type="radio" name="gender" value="Male" checked="checked">Male<input type="radio" name="gender" value="Female">Female</tr>
+						</table>
+					<input type="submit" class="button" name="signin" style="margin-top: 20px;">
+					<button class="button" style="margin-left: 20px;" onclick="cancel()">Cancel</button>
+					</form>
+	</div>
+	</div>
+	<div id="navbar">
+		<div id="logo"><font face="Bunch Blossoms Personal Use" size="6px"><a href="Home.html">Blogger</a></font></div>
+		<div id="logsign"><b><a href="#" onclick="loginpage()">LogIn</a><a>|</a><a href="#" onclick="signup()">SignUp</a></b></div>
+	</div>
+</body>
+</html>
+
+
+<?php
+if(isset($_POST['logup']))
+{
+	$conn=mysqli_connect("localhost","root","") or die("Could Not Connect");
+mysqli_select_db($conn,"Muzikk");
+$username=$_POST["username"];
+$password=$_POST["password"];
+$query="select * from register where username='$username' and password='$password'";
+$run=mysqli_query($conn,$query);
+if(mysqli_num_rows($run)==1)
+{
+	echo "<script>window.open('userhome.html','_self')</script>";
+}
+else
+{
+	echo"<script>alert('Incorrect Username or Password');</script>";
+}
+}
+else if(isset($_POST['signin']))
+{
+	
+$conn=mysqli_connect("localhost","root","") or die("could not connect");
+mysqli_select_db($conn,"Muzikk")
+or mysqli_query($conn,"create database muzikk");
+mysqli_select_db($conn,"Muzikk");
+$name=$_POST["name"];
+$username=$_POST["username"];
+$email=$_POST["email"];
+$pass=$_POST["pass"];
+$conf=$_POST["confpass"];
+$gender=$_POST["gender"];
+$checkuser="select * from register where username='$username'";
+$checkemail="select * from register where email='$email'";
+$runuser=mysqli_query($conn,$checkuser);
+$runemail=mysqli_query($conn,$checkemail);
+$cntuser=mysqli_num_rows($runuser);
+$cntemail=mysqli_num_rows($runemail);
+if($cntuser>0 && $cntemail>0 )
+{
+  echo "<script>alert('Username And Email Already Exist.Choose Another');</script>";
+}
+else if($cntuser>0)
+{
+  echo "<script>alert('Username Already Exist.Choose Another');</script>";
+}
+else if($cntemail>0 )
+{
+  echo "<script>alert('Email Already Exist.Choose Another');</script>";
+}
+else
+{
+  if($pass==$conf)
+  {
+	 $sql="INSERT INTO register (name,username,email,password,gender) VALUES ('$name','$username','$email','$pass','$gender')";
+	 if (mysqli_query($conn,$sql))
+	 {
+      echo "<script>alert('Registration succesful!');</script>";
+    }
+    else
+    {
+   		$ql= "create table register(name VARCHAR(20),username VARCHAR(20),email VARCHAR(20),password VARCHAR(20),gender VARCHAR(20))";
+   		if(mysqli_query($conn,$ql))
+   		{
+    		if (mysqli_query($conn,$sql))
+    		{
+    			   echo "<script>alert('Registration succesful!');location='home.html';</script>";
+			
+			}
+		}
+	}
+}
+else
+{
+	echo '<script language="javascript">';
+	echo 'alert("Password Did Not MATCH")';
+	echo '</script>';
+}}
+}
+?>
